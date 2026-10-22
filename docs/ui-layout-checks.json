@@ -1,0 +1,450 @@
+[
+  {
+    "href": "/projects",
+    "name": "Projects",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Projects",
+    "width": 1440
+  },
+  {
+    "href": "/datasets",
+    "name": "Datasets",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Datasets",
+    "width": 1440
+  },
+  {
+    "href": "/pipelines",
+    "name": "Pipelines",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Pipeline studio",
+    "width": 1440
+  },
+  {
+    "href": "/experiments",
+    "name": "Experiments",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Experiments",
+    "width": 1440
+  },
+  {
+    "href": "/explainability",
+    "name": "Explainability",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Explainability",
+    "width": 1440
+  },
+  {
+    "href": "/models",
+    "name": "Model registry",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Model registry",
+    "width": 1440
+  },
+  {
+    "href": "/deployments",
+    "name": "Deployments",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Deployments",
+    "width": 1440
+  },
+  {
+    "href": "/monitoring",
+    "name": "Monitoring",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Monitoring",
+    "width": 1440
+  },
+  {
+    "href": "/alerts",
+    "name": "Alerts",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Alert center",
+    "width": 1440
+  },
+  {
+    "href": "/backups",
+    "name": "Backups",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Backups",
+    "width": 1440
+  },
+  {
+    "href": "/settings",
+    "name": "Settings",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Workspace settings",
+    "width": 1440
+  },
+  {
+    "href": "/",
+    "name": "Overview",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Customer churn laboratory",
+    "width": 375
+  },
+  {
+    "href": "/projects",
+    "name": "Projects",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Projects",
+    "width": 375
+  },
+  {
+    "href": "/datasets",
+    "name": "Datasets",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Datasets",
+    "width": 375
+  },
+  {
+    "href": "/pipelines",
+    "name": "Pipelines",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Pipeline studio",
+    "width": 375
+  },
+  {
+    "href": "/experiments",
+    "name": "Experiments",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Experiments",
+    "width": 375
+  },
+  {
+    "href": "/explainability",
+    "name": "Explainability",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Explainability",
+    "width": 375
+  },
+  {
+    "href": "/models",
+    "name": "Model registry",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Model registry",
+    "width": 375
+  },
+  {
+    "href": "/deployments",
+    "name": "Deployments",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Deployments",
+    "width": 375
+  },
+  {
+    "href": "/monitoring",
+    "name": "Monitoring",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Monitoring",
+    "width": 375
+  },
+  {
+    "href": "/alerts",
+    "name": "Alerts",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Alert center",
+    "width": 375
+  },
+  {
+    "href": "/backups",
+    "name": "Backups",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Backups",
+    "width": 375
+  },
+  {
+    "href": "/settings",
+    "name": "Settings",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Workspace settings",
+    "width": 375
+  },
+  {
+    "name": "Experiment detail",
+    "href": "/experiments/23e1eab9-7b38-469c-8d13-faea4c3dbf94",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "Churn · random_forest",
+    "width": 375
+  },
+  {
+    "name": "Model detail",
+    "href": "/models/52eec3ba-d090-43b4-a6dd-dcdd81de4127",
+    "bodyWidth": 375,
+    "errors": [],
+    "heading": "churn-random_forest",
+    "width": 375
+  },
+  {
+    "href": "/",
+    "name": "Overview",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Customer churn laboratory",
+    "width": 768
+  },
+  {
+    "href": "/projects",
+    "name": "Projects",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Projects",
+    "width": 768
+  },
+  {
+    "href": "/datasets",
+    "name": "Datasets",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Datasets",
+    "width": 768
+  },
+  {
+    "href": "/pipelines",
+    "name": "Pipelines",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Pipeline studio",
+    "width": 768
+  },
+  {
+    "href": "/experiments",
+    "name": "Experiments",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Experiments",
+    "width": 768
+  },
+  {
+    "href": "/explainability",
+    "name": "Explainability",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Explainability",
+    "width": 768
+  },
+  {
+    "href": "/models",
+    "name": "Model registry",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Model registry",
+    "width": 768
+  },
+  {
+    "href": "/deployments",
+    "name": "Deployments",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Deployments",
+    "width": 768
+  },
+  {
+    "href": "/monitoring",
+    "name": "Monitoring",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Monitoring",
+    "width": 768
+  },
+  {
+    "href": "/alerts",
+    "name": "Alerts",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Alert center",
+    "width": 768
+  },
+  {
+    "href": "/backups",
+    "name": "Backups",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Backups",
+    "width": 768
+  },
+  {
+    "href": "/settings",
+    "name": "Settings",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Workspace settings",
+    "width": 768
+  },
+  {
+    "name": "Experiment detail",
+    "href": "/experiments/23e1eab9-7b38-469c-8d13-faea4c3dbf94",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "Churn · random_forest",
+    "width": 768
+  },
+  {
+    "name": "Model detail",
+    "href": "/models/52eec3ba-d090-43b4-a6dd-dcdd81de4127",
+    "bodyWidth": 768,
+    "errors": [],
+    "heading": "churn-random_forest",
+    "width": 768
+  },
+  {
+    "href": "/",
+    "name": "Overview",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Customer churn laboratory",
+    "width": 1024
+  },
+  {
+    "href": "/projects",
+    "name": "Projects",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Projects",
+    "width": 1024
+  },
+  {
+    "href": "/datasets",
+    "name": "Datasets",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Datasets",
+    "width": 1024
+  },
+  {
+    "href": "/pipelines",
+    "name": "Pipelines",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Pipeline studio",
+    "width": 1024
+  },
+  {
+    "href": "/experiments",
+    "name": "Experiments",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Experiments",
+    "width": 1024
+  },
+  {
+    "href": "/explainability",
+    "name": "Explainability",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Explainability",
+    "width": 1024
+  },
+  {
+    "href": "/models",
+    "name": "Model registry",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Model registry",
+    "width": 1024
+  },
+  {
+    "href": "/deployments",
+    "name": "Deployments",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Deployments",
+    "width": 1024
+  },
+  {
+    "href": "/monitoring",
+    "name": "Monitoring",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Monitoring",
+    "width": 1024
+  },
+  {
+    "href": "/alerts",
+    "name": "Alerts",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Alert center",
+    "width": 1024
+  },
+  {
+    "href": "/backups",
+    "name": "Backups",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Backups",
+    "width": 1024
+  },
+  {
+    "href": "/settings",
+    "name": "Settings",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Workspace settings",
+    "width": 1024
+  },
+  {
+    "name": "Experiment detail",
+    "href": "/experiments/23e1eab9-7b38-469c-8d13-faea4c3dbf94",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "Churn · random_forest",
+    "width": 1024
+  },
+  {
+    "name": "Model detail",
+    "href": "/models/52eec3ba-d090-43b4-a6dd-dcdd81de4127",
+    "bodyWidth": 1024,
+    "errors": [],
+    "heading": "churn-random_forest",
+    "width": 1024
+  },
+  {
+    "href": "/",
+    "name": "Overview",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Customer churn laboratory",
+    "width": 1440
+  },
+  {
+    "name": "Experiment detail",
+    "href": "/experiments/23e1eab9-7b38-469c-8d13-faea4c3dbf94",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "Churn · random_forest",
+    "width": 1440
+  },
+  {
+    "name": "Model detail",
+    "href": "/models/52eec3ba-d090-43b4-a6dd-dcdd81de4127",
+    "bodyWidth": 1440,
+    "errors": [],
+    "heading": "churn-random_forest",
+    "width": 1440
+  }
+]
