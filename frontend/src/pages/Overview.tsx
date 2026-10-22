@@ -18,6 +18,10 @@ import type { Overview as OverviewData, Run, RegisteredModel, Deployment } from 
 import { Badge, Card, Empty, ErrorState, Loading, Metric, PageHeader } from '../components/ui';
 import { date, duration, percent, shortId, title } from '../utils/format';
 import { Timeseries } from '../components/charts';
+import { HeroScene } from '../components/motion/HeroScene';
+import { CountUp } from '../components/motion/CountUp';
+import { TiltCard } from '../components/motion/TiltCard';
+import { Reveal } from '../components/motion/Reveal';
 
 export function RunsTable({ runs }: { runs: Run[] }) {
   return (
@@ -130,25 +134,25 @@ export default function Overview() {
       <div className="metrics-grid">
         <Metric
           label="Projects"
-          value={counts.projects ?? projects.length}
+          value={<CountUp value={counts.projects ?? projects.length} />}
           detail={projectId ? 'Current project scope' : 'Across your workspace'}
           icon={<FolderOpen size={19} />}
         />
         <Metric
           label="Datasets"
-          value={counts.datasets ?? 0}
+          value={<CountUp value={counts.datasets ?? 0} />}
           detail="Versioned source data"
           icon={<Database size={19} />}
         />
         <Metric
           label="Pipeline runs"
-          value={counts.runs ?? counts.pipeline_runs ?? 0}
+          value={<CountUp value={counts.runs ?? counts.pipeline_runs ?? 0} />}
           detail={`${counts.successful_runs ?? counts.completed_runs ?? runs.filter((run) => run.status === 'completed').length} successful · ${counts.failed_runs ?? runs.filter((run) => run.status === 'failed').length} failed`}
           icon={<FlaskConical size={19} />}
         />
         <Metric
           label="Registered models"
-          value={counts.models ?? counts.registered_models ?? models.data?.length ?? 0}
+          value={<CountUp value={counts.models ?? counts.registered_models ?? models.data?.length ?? 0} />}
           detail={`${deployments.data?.filter((deployment) => deployment.status === 'active').length ?? 0} active deployments`}
           icon={<Box size={19} />}
         />
@@ -171,22 +175,26 @@ export default function Overview() {
           </Link>
         </div>
         <div className="overview-hero-visual">
-          <ol className="workflow-track" aria-label="Workflow stages">
-            {[
-              { label: 'Dataset', icon: Database },
-              { label: 'Train', icon: FlaskConical },
-              { label: 'Explain', icon: ScanEye },
-              { label: 'Serve', icon: Rocket },
-            ].map(({ label, icon: Icon }, index) => (
-              <li className="workflow-step" key={label}>
-                <span className="workflow-step-icon">
-                  <Icon size={22} aria-hidden="true" />
-                </span>
-                <span className="workflow-step-number">0{index + 1}</span>
-                <strong>{label}</strong>
-              </li>
-            ))}
-          </ol>
+          <HeroScene
+            fallback={
+              <ol className="workflow-track" aria-label="Workflow stages">
+                {[
+                  { label: 'Dataset', icon: Database },
+                  { label: 'Train', icon: FlaskConical },
+                  { label: 'Explain', icon: ScanEye },
+                  { label: 'Serve', icon: Rocket },
+                ].map(({ label, icon: Icon }, index) => (
+                  <li className="workflow-step" key={label}>
+                    <span className="workflow-step-icon">
+                      <Icon size={22} aria-hidden="true" />
+                    </span>
+                    <span className="workflow-step-number">0{index + 1}</span>
+                    <strong>{label}</strong>
+                  </li>
+                ))}
+              </ol>
+            }
+          />
           <div className="workflow-summary">
             <span>
               <i aria-hidden="true" />
@@ -201,6 +209,38 @@ export default function Overview() {
           </div>
         </div>
       </section>
+      <Reveal className="capability-showcase">
+        <TiltCard className="showcase-card">
+          <span className="showcase-icon">
+            <GitBranch size={20} aria-hidden="true" />
+          </span>
+          <strong>Visual orchestration</strong>
+          <p>
+            Compose preprocessing, training, and serving as a validated DAG, then run it with live
+            node-level status.
+          </p>
+        </TiltCard>
+        <TiltCard className="showcase-card">
+          <span className="showcase-icon">
+            <ScanEye size={20} aria-hidden="true" />
+          </span>
+          <strong>Explainable by default</strong>
+          <p>
+            Real SHAP and LIME attributions travel with every model, as a first-class pipeline stage
+            rather than an afterthought.
+          </p>
+        </TiltCard>
+        <TiltCard className="showcase-card">
+          <span className="showcase-icon">
+            <Rocket size={20} aria-hidden="true" />
+          </span>
+          <strong>Deploy &amp; monitor</strong>
+          <p>
+            Promote a version, serve predictions over REST, and watch drift and degradation raise
+            alerts automatically.
+          </p>
+        </TiltCard>
+      </Reveal>
       <Card
         title="Recent experiments"
         subtitle="Execution history and model performance"

@@ -24,6 +24,8 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { useWorkspace } from '../hooks/useWorkspace';
+import { ScrollProgress } from '../components/motion/ScrollProgress';
+import { useGlobalReveal } from '../components/motion/useGlobalReveal';
 
 const groups = [
   {
@@ -62,6 +64,7 @@ export function AppShell() {
   const sidebar = useRef<HTMLElement>(null);
   const menuButton = useRef<HTMLButtonElement>(null);
   const location = useLocation();
+  useGlobalReveal(location.pathname);
   const health = useQuery({
     queryKey: ['health'],
     queryFn: () => api<{ status: string }>('/health'),
@@ -120,6 +123,7 @@ export function AppShell() {
       <a className="skip-link" href="#main-content">
         Skip to content
       </a>
+      <ScrollProgress />
       {mobileOpen && (
         <button
           className="sidebar-scrim"

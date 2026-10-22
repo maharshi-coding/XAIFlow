@@ -3462,3 +3462,160 @@ tbody tr:hover {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---- Interactive motion layer (GSAP scroll reveal, 3D hero, tilt cards) ---- */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 60;
+  pointer-events: none;
+  background: transparent;
+}
+.scroll-progress span {
+  display: block;
+  height: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--teal), #4fc4b0 70%, #72ddc8);
+  box-shadow: 0 0 10px #087f7540;
+  will-change: transform;
+}
+.count-up {
+  font-variant-numeric: tabular-nums;
+}
+.hero-canvas {
+  width: 100%;
+  height: 264px;
+  min-height: 220px;
+  cursor: grab;
+  touch-action: none;
+}
+.hero-canvas:active {
+  cursor: grabbing;
+}
+.hero-canvas canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 12px;
+}
+
+/* Capability showcase: parallax tilt cards revealed on scroll */
+.capability-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.tilt-card {
+  perspective: 1000px;
+  height: 100%;
+}
+.tilt-card-inner {
+  position: relative;
+  height: 100%;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition:
+    transform 320ms ease,
+    box-shadow 320ms ease;
+  will-change: transform;
+}
+.tilt-card[data-tilting='true'] .tilt-card-inner {
+  transition:
+    transform 90ms ease-out,
+    box-shadow 90ms ease-out;
+}
+.showcase-card .tilt-card-inner {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.showcase-card .tilt-card-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    #16a79426,
+    transparent 48%
+  );
+  opacity: 0;
+  transition: opacity 240ms ease;
+  pointer-events: none;
+}
+.showcase-card[data-tilting='true'] .tilt-card-inner::after {
+  opacity: 1;
+}
+.showcase-card[data-tilting='true'] .tilt-card-inner {
+  box-shadow:
+    0 20px 44px #12a5941f,
+    0 4px 14px #1827350f;
+  border-color: #b4ddd2;
+}
+.showcase-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--teal-subtle);
+  border: 1px solid #cde3db;
+  color: var(--teal);
+  margin-bottom: 14px;
+}
+.showcase-card strong {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.showcase-card p {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* Subtle hover micro-interactions (shadow/border only to avoid clashing with
+   the GSAP reveal, which animates transform). */
+.metric,
+.deployment-card {
+  transition:
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+.metric:hover,
+.deployment-card:hover {
+  box-shadow: 0 14px 30px #18273514;
+  border-color: #bcd5ce;
+}
+.project-card:hover {
+  box-shadow: 0 14px 30px #18273514;
+  border-color: #bcd5ce;
+}
+.list-row {
+  transition: background 160ms ease;
+  border-radius: 8px;
+}
+.list-row:hover {
+  background: #f6fbfa;
+}
+
+@media (max-width: 920px) {
+  .capability-showcase {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tilt-card-inner {
+    transform: none !important;
+  }
+  .scroll-progress {
+    display: none;
+  }
+}
