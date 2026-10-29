@@ -4,6 +4,7 @@ import { api } from '../services/api';
 import type { Monitoring } from '../types/domain';
 import { Card, Empty, ErrorState, Loading, Metric } from './ui';
 import { Timeseries } from './charts';
+import { CountUp } from './motion/CountUp';
 import { date, percent } from '../utils/format';
 
 export function DeploymentTraffic({ deploymentId }: { deploymentId: string }) {
@@ -36,25 +37,25 @@ export function DeploymentTraffic({ deploymentId }: { deploymentId: string }) {
       <div className="metrics-grid">
         <Metric
           label="Serving requests"
-          value={data.request_count.toLocaleString()}
+          value={<CountUp value={data.request_count} />}
           detail="Recorded deployment traffic"
           icon={<Radio size={18} />}
         />
         <Metric
           label="Recent latency"
-          value={`${data.avg_latency_ms.toFixed(1)} ms`}
+          value={<CountUp value={data.avg_latency_ms} decimals={1} suffix=" ms" />}
           detail="Mean over monitored request history"
           icon={<Gauge size={18} />}
         />
         <Metric
           label="Serving errors"
-          value={data.error_count}
+          value={<CountUp value={data.error_count} />}
           detail={`${percent(data.error_rate)} request error rate`}
           icon={<AlertTriangle size={18} />}
         />
         <Metric
           label="Predictions served"
-          value={(data.prediction_count ?? 0).toLocaleString()}
+          value={<CountUp value={data.prediction_count ?? 0} />}
           detail={
             latest ? `Last activity ${date(latest.created_at)}` : 'Awaiting prediction activity'
           }

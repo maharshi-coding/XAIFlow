@@ -28,6 +28,7 @@ import {
   Notice,
   PageHeader,
 } from '../components/ui';
+import { CountUp } from '../components/motion/CountUp';
 import { bytes, date, title } from '../utils/format';
 
 interface Restored {
@@ -102,7 +103,7 @@ export default function Backups() {
         <div className="summary-grid">
           <Metric
             label="Saved archives"
-            value={query.data.length}
+            value={<CountUp value={query.data.length} />}
             detail={workspace.projectId ? 'For the selected project' : 'Across all projects'}
             icon={<Archive size={19} />}
           />

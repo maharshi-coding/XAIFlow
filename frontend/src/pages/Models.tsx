@@ -20,6 +20,7 @@ import {
 import { MetricsGrid } from '../components/charts';
 import { DeployModel } from '../components/DeployModel';
 import { ExplanationView } from '../components/ExplanationView';
+import { StatBar } from '../components/motion/StatBar';
 import { date, percent, shortId, title } from '../utils/format';
 
 export default function Models() {
@@ -80,7 +81,7 @@ export default function Models() {
                 </tr>
               </thead>
               <tbody>
-                {query.data.map((model) => (
+                {query.data.map((model, index) => (
                   <tr key={model.id}>
                     <td>
                       <Link to={`/models/${model.id}`} className="table-link">
@@ -93,7 +94,12 @@ export default function Models() {
                     <td>
                       <Badge status={model.status} />
                     </td>
-                    <td className="mono teal">{percent(model.metrics.accuracy)}</td>
+                    <td>
+                      <div className="table-stat">
+                        <StatBar value={model.metrics.accuracy ?? 0} delay={index * 0.05} />
+                        <span className="mono teal">{percent(model.metrics.accuracy)}</span>
+                      </div>
+                    </td>
                     <td>
                       <Link to={`/experiments/${model.run_id}`} className="mono text-link">
                         {shortId(model.run_id)}
