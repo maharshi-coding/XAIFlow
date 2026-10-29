@@ -28,6 +28,9 @@ import {
   PageHeader,
 } from '../components/ui';
 import { Timeseries } from '../components/charts';
+import { CountUp } from '../components/motion/CountUp';
+import { RadialGauge } from '../components/motion/RadialGauge';
+import { StatBar } from '../components/motion/StatBar';
 import { date, percent } from '../utils/format';
 
 function DeploymentMonitoring({ deployment }: { deployment: Deployment }) {
@@ -62,33 +65,54 @@ function DeploymentMonitoring({ deployment }: { deployment: Deployment }) {
     label,
     count,
   }));
+  const driftThreshold = data.drift_threshold ?? deployment.drift_threshold ?? 0.2;
+  const driftScore = data.drift_score ?? 0;
+  const featureCount = data.features?.length ?? 0;
+  const driftedCount = data.features?.filter((feature) => feature.drifted).length ?? 0;
+  const isDrifting = featureCount > 0 && driftScore >= driftThreshold;
   return (
     <>
       <Notice error={action.error} success={action.success} />
       <div className="metrics-grid">
         <Metric
           label="Requests"
-          value={data.request_count.toLocaleString()}
+          value={<CountUp value={data.request_count} />}
           detail={`${data.prediction_count ?? 0} predictions in monitored history`}
           icon={<Radio size={19} />}
         />
         <Metric
           label="Average latency"
-          value={`${data.avg_latency_ms.toFixed(1)} ms`}
+          value={<CountUp value={data.avg_latency_ms} decimals={1} suffix=" ms" />}
           detail="Includes requested explanation time"
           icon={<Gauge size={19} />}
         />
         <Metric
           label="Errors"
-          value={data.error_count}
+          value={<CountUp value={data.error_count} />}
           detail={`${percent(data.error_rate)} request error rate`}
           icon={<AlertTriangle size={19} />}
+          trend={
+            data.request_count
+              ? {
+                  label: data.error_count ? `${percent(data.error_rate)} errors` : 'No errors',
+                  tone: data.error_count ? 'down' : 'up',
+                }
+              : undefined
+          }
         />
         <Metric
           label="Maximum drift (PSI)"
-          value={(data.drift_score ?? 0).toFixed(3)}
-          detail={`Threshold ${(data.drift_threshold ?? deployment.drift_threshold ?? 0.2).toFixed(2)}`}
+          value={<CountUp value={data.drift_score ?? 0} decimals={3} />}
+          detail={`Threshold ${driftThreshold.toFixed(2)}`}
           icon={<Activity size={19} />}
+          trend={
+            data.features?.length
+              ? {
+                  label: isDrifting ? 'Threshold exceeded' : 'Within threshold',
+                  tone: isDrifting ? 'down' : 'up',
+                }
+              : undefined
+          }
         />
       </div>
       <div className="two-column">
@@ -122,6 +146,24 @@ function DeploymentMonitoring({ deployment }: { deployment: Deployment }) {
         title="Feature distribution drift"
         subtitle="Population Stability Index against the original training dataset"
       >
+        <div className="drift-overview">
+          <RadialGauge
+            value={driftThreshold > 0 ? Math.min(1, driftScore / driftThreshold) : 0}
+            display={driftScore.toFixed(3)}
+            caption="max PSI"
+            tone={isDrifting ? 'red' : 'teal'}
+          />
+          <div className="drift-overview-copy">
+            <strong>
+              {isDrifting ? 'Distribution drift detected' : 'Distributions within threshold'}
+            </strong>
+            <p>
+              {featureCount
+                ? `${driftedCount} of ${featureCount} feature${featureCount === 1 ? '' : 's'} exceeded the PSI threshold of ${driftThreshold.toFixed(2)}.`
+                : 'No monitored samples yet. Each feature’s PSI is compared against the training distribution once predictions arrive.'}
+            </p>
+          </div>
+        </div>
         {data.features?.length ? (
           <div className="table-scroll">
             <table>
@@ -204,18 +246,27 @@ function DeploymentMonitoring({ deployment }: { deployment: Deployment }) {
           title="Performance against baseline"
           subtitle="Observed accuracy requires ground truth labels"
         >
-          <div className="performance-compare">
-            <div>
-              <span>Training baseline</span>
-              <strong>{percent(data.baseline_accuracy)}</strong>
+          <div className="perf-bars">
+            <div className="perf-bar-row">
+              <div className="perf-bar-head">
+                <span>Training baseline</span>
+                <strong className="mono">{percent(data.baseline_accuracy)}</strong>
+              </div>
+              <StatBar value={data.baseline_accuracy ?? 0} tone="muted" />
             </div>
-            <div>
-              <span>Observed accuracy</span>
-              <strong>{percent(data.accuracy)}</strong>
+            <div className="perf-bar-row">
+              <div className="perf-bar-head">
+                <span>Observed accuracy</span>
+                <strong className="mono">{percent(data.accuracy)}</strong>
+              </div>
+              <StatBar
+                value={data.accuracy ?? 0}
+                tone={(data.degradation ?? 0) > degradation ? 'red' : 'teal'}
+              />
             </div>
-            <div>
+            <div className="perf-degradation">
               <span>Accuracy degradation</span>
-              <strong className={(data.degradation ?? 0) > degradation ? 'red' : 'teal'}>
+              <strong className={`mono ${(data.degradation ?? 0) > degradation ? 'red' : 'teal'}`}>
                 {percent(data.degradation)}
               </strong>
             </div>

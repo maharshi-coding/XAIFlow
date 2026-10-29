@@ -1,6 +1,14 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { ArrowUpRight, GitCompareArrows, Search } from 'lucide-react';
+import {
+  ArrowUpRight,
+  CheckCircle2,
+  FlaskConical,
+  Gauge,
+  GitCompareArrows,
+  Layers3,
+  Search,
+} from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { api, scoped } from '../services/api';
 import { useWorkspace } from '../hooks/useWorkspace';
@@ -14,9 +22,11 @@ import {
   ErrorState,
   Field,
   Loading,
+  Metric,
   Modal,
   PageHeader,
 } from '../components/ui';
+import { CountUp } from '../components/motion/CountUp';
 import { date, duration, percent, shortId, title } from '../utils/format';
 import { comparisonDelta, comparisonValue, isRateMetric } from '../utils/comparison';
 
@@ -183,13 +193,19 @@ export default function Experiments() {
     queryFn: () => api<Run[]>(scoped('/runs', projectId)),
     refetchInterval: 5000,
   });
-  const runs =
-    query.data?.filter(
-      (run) =>
-        (status === 'all' || run.status === status) &&
-        (algorithm === 'all' || run.model_type === algorithm) &&
-        `${run.pipeline_name} ${run.id}`.toLowerCase().includes(search.toLowerCase()),
-    ) ?? [];
+  const allRuns = query.data ?? [];
+  const runs = allRuns.filter(
+    (run) =>
+      (status === 'all' || run.status === status) &&
+      (algorithm === 'all' || run.model_type === algorithm) &&
+      `${run.pipeline_name} ${run.id}`.toLowerCase().includes(search.toLowerCase()),
+  );
+  const completedRuns = allRuns.filter((run) => run.status === 'completed');
+  const bestAccuracy = completedRuns.reduce(
+    (best, run) => Math.max(best, run.metrics?.accuracy ?? 0),
+    0,
+  );
+  const algorithmCount = new Set(allRuns.map((run) => run.model_type).filter(Boolean)).size;
   return (
     <>
       <PageHeader
@@ -207,6 +223,42 @@ export default function Experiments() {
           </Button>
         }
       />
+      {allRuns.length > 0 && (
+        <div className="metrics-grid">
+          <Metric
+            label="Total experiments"
+            value={<CountUp value={allRuns.length} />}
+            detail="Tracked pipeline executions"
+            icon={<FlaskConical size={19} />}
+          />
+          <Metric
+            label="Completed"
+            value={<CountUp value={completedRuns.length} />}
+            detail={`${allRuns.length - completedRuns.length} not completed`}
+            icon={<CheckCircle2 size={19} />}
+            trend={
+              allRuns.length
+                ? {
+                    label: `${Math.round((completedRuns.length / allRuns.length) * 100)}% success`,
+                    tone: completedRuns.length === allRuns.length ? 'up' : 'flat',
+                  }
+                : undefined
+            }
+          />
+          <Metric
+            label="Best accuracy"
+            value={<CountUp value={bestAccuracy * 100} decimals={1} suffix="%" />}
+            detail="Across completed runs"
+            icon={<Gauge size={19} />}
+          />
+          <Metric
+            label="Algorithms"
+            value={<CountUp value={algorithmCount} />}
+            detail="Distinct model families tried"
+            icon={<Layers3 size={19} />}
+          />
+        </div>
+      )}
       <Card>
         <div className="filters">
           <div className="search-input">

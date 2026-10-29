@@ -20,8 +20,7 @@ import { date, duration, percent, shortId, title } from '../utils/format';
 import { Timeseries } from '../components/charts';
 import { HeroScene } from '../components/motion/HeroScene';
 import { CountUp } from '../components/motion/CountUp';
-import { TiltCard } from '../components/motion/TiltCard';
-import { Reveal } from '../components/motion/Reveal';
+import { ModelLeaderboard } from '../components/ModelLeaderboard';
 
 export function RunsTable({ runs }: { runs: Run[] }) {
   return (
@@ -115,6 +114,18 @@ export default function Overview() {
       }, new Map<string, { label: string; completed: number; failed: number }>())
       .values(),
   ).reverse();
+  const runTotal = counts.runs ?? counts.pipeline_runs ?? runs.length;
+  const successful =
+    counts.successful_runs ??
+    counts.completed_runs ??
+    runs.filter((run) => run.status === 'completed').length;
+  const failed = counts.failed_runs ?? runs.filter((run) => run.status === 'failed').length;
+  const successRate = runTotal ? successful / runTotal : 0;
+  const activeDeployments =
+    deployments.data?.filter((deployment) => deployment.status === 'active').length ?? 0;
+  const champion = (models.data ?? [])
+    .filter((model) => typeof model.metrics?.accuracy === 'number')
+    .sort((a, b) => (b.metrics.accuracy ?? 0) - (a.metrics.accuracy ?? 0))[0];
   return (
     <>
       <PageHeader
@@ -146,14 +157,27 @@ export default function Overview() {
         />
         <Metric
           label="Pipeline runs"
-          value={<CountUp value={counts.runs ?? counts.pipeline_runs ?? 0} />}
-          detail={`${counts.successful_runs ?? counts.completed_runs ?? runs.filter((run) => run.status === 'completed').length} successful · ${counts.failed_runs ?? runs.filter((run) => run.status === 'failed').length} failed`}
+          value={<CountUp value={runTotal} />}
+          detail={`${successful} successful · ${failed} failed`}
+          trend={
+            runTotal
+              ? {
+                  label: `${Math.round(successRate * 100)}% success`,
+                  tone: failed === 0 ? 'up' : 'flat',
+                }
+              : undefined
+          }
           icon={<FlaskConical size={19} />}
         />
         <Metric
           label="Registered models"
-          value={<CountUp value={counts.models ?? counts.registered_models ?? models.data?.length ?? 0} />}
-          detail={`${deployments.data?.filter((deployment) => deployment.status === 'active').length ?? 0} active deployments`}
+          value={
+            <CountUp value={counts.models ?? counts.registered_models ?? models.data?.length ?? 0} />
+          }
+          detail={`${activeDeployments} active deployment${activeDeployments === 1 ? '' : 's'}`}
+          trend={
+            champion ? { label: `Best ${percent(champion.metrics.accuracy)}`, tone: 'up' } : undefined
+          }
           icon={<Box size={19} />}
         />
       </div>
@@ -198,49 +222,22 @@ export default function Overview() {
           <div className="workflow-summary">
             <span>
               <i aria-hidden="true" />
-              {counts.successful_runs ??
-                runs.filter((run) => run.status === 'completed').length}{' '}
-              completed experiments
+              {successful} completed experiments
             </span>
             <span>
-              {deployments.data?.filter((deployment) => deployment.status === 'active').length ?? 0}{' '}
-              active deployments
+              <i aria-hidden="true" />
+              {activeDeployments} active deployments
             </span>
+            {champion && (
+              <span>
+                <i aria-hidden="true" />
+                Top model {percent(champion.metrics.accuracy)}
+              </span>
+            )}
           </div>
         </div>
       </section>
-      <Reveal className="capability-showcase">
-        <TiltCard className="showcase-card">
-          <span className="showcase-icon">
-            <GitBranch size={20} aria-hidden="true" />
-          </span>
-          <strong>Visual orchestration</strong>
-          <p>
-            Compose preprocessing, training, and serving as a validated DAG, then run it with live
-            node-level status.
-          </p>
-        </TiltCard>
-        <TiltCard className="showcase-card">
-          <span className="showcase-icon">
-            <ScanEye size={20} aria-hidden="true" />
-          </span>
-          <strong>Explainable by default</strong>
-          <p>
-            Real SHAP and LIME attributions travel with every model, as a first-class pipeline stage
-            rather than an afterthought.
-          </p>
-        </TiltCard>
-        <TiltCard className="showcase-card">
-          <span className="showcase-icon">
-            <Rocket size={20} aria-hidden="true" />
-          </span>
-          <strong>Deploy &amp; monitor</strong>
-          <p>
-            Promote a version, serve predictions over REST, and watch drift and degradation raise
-            alerts automatically.
-          </p>
-        </TiltCard>
-      </Reveal>
+      <ModelLeaderboard models={models.data ?? []} />
       <Card
         title="Recent experiments"
         subtitle="Execution history and model performance"

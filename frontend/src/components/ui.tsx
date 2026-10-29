@@ -168,11 +168,13 @@ export function Metric({
   value,
   detail,
   icon,
+  trend,
 }: {
   label: string;
   value: ReactNode;
   detail?: string;
   icon?: ReactNode;
+  trend?: { label: string; tone?: 'up' | 'down' | 'flat' };
 }) {
   return (
     <div className="metric">
@@ -185,7 +187,9 @@ export function Metric({
         )}
       </div>
       <strong className="metric-value">{value}</strong>
+      {trend && <span className={`metric-trend trend-${trend.tone ?? 'flat'}`}>{trend.label}</span>}
       {detail && <small>{detail}</small>}
+      <span className="metric-accent" aria-hidden="true" />
     </div>
   );
 }
